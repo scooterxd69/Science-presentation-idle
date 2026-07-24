@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Adaptive Wireless Charging Road — Powering the Future Without Wires</title>
+<meta name="description" content="Adaptive Wireless Charging Road — a cinematic engineering showcase">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   ADAPTIVE WIRELESS CHARGING ROAD — CINEMATIC PRESENTATION
+   ============================================================ */
+
+:root{
+  --void:#02040a;
+  --navy-0:#050914;
+  --navy-1:#0a1226;
+  --navy-2:#0e1a36;
+  --blue:#3d8bff;
+  --blue-bright:#7ec8ff;
+  --cyan:#5eead4;
+  --cyan-2:#00e5ff;
+  --violet:#8b7cff;
+  --white:#f4f8ff;
+  --silver:#aebbd4;
+  --silver-dim:#6d7996;
+  --glass:rgba(150,180,255,0.045);
+  --glass-strong:rgba(150,180,255,0.09);
+  --glass-border:rgba(160,200,255,0.14);
+  --line-dim:rgba(130,180,255,0.18);
+  --f-display:'Space Grotesk', sans-serif;
+  --f-body:'Manrope', sans-serif;
+  --f-mono:'JetBrains Mono', monospace;
+  --ease:cubic-bezier(.16,.8,.24,1);
+  --ease-soft:cubic-bezier(.4,0,.2,1);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{
+  width:100%;height:100%;overflow:hidden;
+  background:var(--void);
+  color:var(--white);
+  font-family:var(--f-body);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+::selection{background:rgba(94,234,212,.25);}
+
+body{
+  background:
+    radial-gradient(ellipse 120% 80% at 50% -10%, rgba(61,139,255,0.16), transparent 60%),
+    radial-gradient(ellipse 100% 70% at 85% 110%, rgba(139,124,255,0.10), transparent 55%),
+    radial-gradient(ellipse 90% 60% at 10% 100%, rgba(94,234,212,0.06), transparent 55%),
+    linear-gradient(180deg, var(--navy-0) 0%, var(--void) 55%, #010208 100%);
+  position:relative;
+}
+
+/* filmic grain */
+body::after{
+  content:"";
+  position:fixed; inset:0; z-index:60; pointer-events:none;
+  opacity:.035; mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+/* vignette */
+body::before{
+  content:"";
+  position:fixed; inset:0; z-index:55; pointer-events:none;
+  background:radial-gradient(ellipse 90% 90% at 50% 50%, transparent 55%, rgba(0,0,0,.55) 100%);
+}
+
+#bg-canvas{position:fixed; inset:0; z-index:1; width:100%; height:100%;}
+
+.energy-threads{position:fixed; inset:0; z-index:2; width:100%; height:100%; opacity:.5;}
+.energy-threads path{
+  fill:none; stroke-width:1; vector-effect:non-scaling-stroke;
+}
+.thread-a{stroke:url(#threadGradA); stroke-dasharray:6 14; animation:threadFlow 14s linear infinite;}
+.thread-b{stroke:url(#threadGradB); stroke-dasharray:4 18; animation:threadFlow 20s linear infinite reverse;}
+@keyframes threadFlow{ to{ stroke-dashoffset:-400; } }
+
+/* ---------- stage ---------- */
+#stage{position:fixed; inset:0; z-index:5; width:100%; height:100%;}
+.scene{
+  position:absolute; inset:0; width:100%; height:100%;
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; visibility:hidden; pointer-events:none;
+  filter:blur(6px);
+  transform:scale(1.04);
+  transition:opacity 1.4s var(--ease), transform 1.8s var(--ease), filter 1.4s var(--ease);
+  z-index:1;
+}
+.scene.active{
+  opacity:1; visibility:visible; pointer-events:auto;
+  filter:blur(0px);
+  transform:scale(1);
+  z-index:2;
+}
+.scene-inner{
+  width:min(1240px, 92vw);
+  max-height:88vh;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center;
+  gap:clamp(18px,3vh,34px);
+  padding:2vh 0;
+}
+
+/* chapter label */
+.chapter{
+  position:absolute; top:5.5vh; left:50%; transform:translateX(-50%);
+  display:flex; align-items:center; gap:12px;
+  font-family:var(--f-mono); font-size:.68rem; letter-spacing:.32em;
+  text-transform:uppercase; color:var(--cyan);
+  opacity:0; transition:opacity .8s var(--ease) .1s;
+  white-space:nowrap;
+}
+.scene.active .chapter{opacity:.75;}
+.chapter .dash{width:26px; height:1px; background:linear-gradient(90deg, transparent, var(--cyan));}
+.chapter .dash.r{background:linear-gradient(90deg, var(--cyan), transparent);}
+
+.eyebrow{
+  font-family:var(--f-mono); font-size:clamp(.7rem,1vw,.85rem);
+  letter-spacing:.35em; text-transform:uppercase; color:var(--blue-bright);
+  opacity:.85;
+}
+.display-xl{
+  font-family:var(--f-display); font-weight:700;
+  font-size:clamp(2.4rem, 6.4vw, 6.2rem);
+  line-height:1.04; letter-spacing:-.02em; color:var(--white);
+}
+.display-lg{
+  font-family:var(--f-display); font-weight:600;
+  font-size:clamp(1.8rem, 4.2vw, 3.6rem);
+  line-height:1.08; letter-spacing:-.015em;
+}
+.display-md{
+  font-family:var(--f-display); font-weight:600;
+  font-size:clamp(1.3rem,2.4vw,2rem); line-height:1.2;
+}
+.gradient-text{
+  background:linear-gradient(100deg, var(--white) 10%, var(--blue-bright) 45%, var(--cyan) 65%, var(--white) 90%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  background-size:220% 100%;
+  animation:sheen 7s linear infinite;
+}
+@keyframes sheen{ to{ background-position:-220% 0; } }
+
+.lede{
+  font-size:clamp(.95rem,1.3vw,1.2rem); color:var(--silver);
+  font-weight:400; line-height:1.6; max-width:640px;
+}
+.mono-tag{
+  font-family:var(--f-mono); font-size:.72rem; letter-spacing:.2em;
+  text-transform:uppercase; color:var(--silver-dim);
+}
+
+/* glass panel */
+.glass{
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  backdrop-filter:blur(24px) saturate(140%);
+  -webkit-backdrop-filter:blur(24px) saturate(140%);
+  border-radius:20px;
+  box-shadow:0 30px 80px -30px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.05);
+}
+
+/* reveal utility classes (armed by .run) */
+.rv{opacity:0; transform:translateY(28px); transition:none;}
+.scene.run .rv{
+  animation:fadeUp .9s var(--ease-soft) forwards;
+  animation-delay:calc(var(--i,0) * .14s + .1s);
+}
+@keyframes fadeUp{ to{ opacity:1; transform:translateY(0); } }
+
+.rv-scale{opacity:0; transform:scale(.86);}
+.scene.run .rv-scale{
+  animation:scaleIn .85s var(--ease-soft) forwards;
+  animation-delay:calc(var(--i,0) * .13s + .1s);
+}
+@keyframes scaleIn{ to{ opacity:1; transform:scale(1); } }
+
+.rv-fade{opacity:0;}
+.scene.run .rv-fade{
+  animation:fadeIn 1.1s var(--ease-soft) forwards;
+  animation-delay:calc(var(--i,0) * .12s + .05s);
+}
+@keyframes fadeIn{ to{ opacity:1; } }
+
+.rv-char{opacity:0; transform:translateY(.6em) rotate(2deg);}
+.scene.run .rv-char{
+  animation:charUp .7s var(--ease-soft) forwards;
+  animation-delay:calc(var(--i,0) * .028s + .1s);
+}
+@keyframes charUp{ to{ opacity:1; transform:translateY(0) rotate(0);} }
+
+.float{ animation:floatY 6s ease-in-out infinite; }
+@keyframes floatY{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(-12px);} }
+
+.pulse-glow{ animation:pulseGlow 2.4s ease-in-out infinite; }
+@keyframes pulseGlow{ 0%,100%{opacity:.45; filter:drop-shadow(0 0 2px currentColor);} 50%{opacity:1; filter:drop-shadow(0 0 14px currentColor);} }
+
+.icon{width:26px; height:26px; stroke:currentColor; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; display:block;}
+
+/* progress thread */
+#progress-wrap{position:fixed; left:0; right:0; bottom:0; height:2px; z-index:50; background:rgba(255,255,255,.04);}
+#progress-bar{height:100%; width:0%; background:linear-gradient(90deg, var(--blue), var(--cyan)); box-shadow:0 0 12px 1px var(--cyan-2);}
+
+/* ===================== ROAD / CAR shared building blocks ===================== */
+.road-strip{
+  position:relative; width:100%; max-width:920px; height:120px;
+  display:flex; gap:14px; align-items:flex-end; justify-content:center;
+}
+.road-seg{
+  position:relative; flex:1; height:64px; border-radius:10px;
+  background:linear-gradient(180deg, #10182c, #070b16);
+  border:1px solid var(--glass-border);
+  overflow:hidden;
+}
+.road-seg::before{
+  content:""; position:absolute; inset:0;
+  background:repeating-linear-gradient(90deg, rgba(255,255,255,.05) 0 2px, transparent 2px 22px);
+  opacity:.5;
+}
+.road-seg .coil{
+  position:absolute; inset:auto; left:50%; top:50%; transform:translate(-50%,-50%);
+  width:34px; height:34px; border-radius:50%;
+  border:2px solid var(--blue-bright);
+  box-shadow:0 0 0 0 rgba(126,200,255,.5);
+  opacity:.35;
+}
+.road-seg.hot .coil{
+  opacity:1; animation:coilPulse 1.1s ease-in-out infinite;
+}
+@keyframes coilPulse{
+  0%{ box-shadow:0 0 0 0 rgba(94,234,212,.55); }
+  70%{ box-shadow:0 0 0 22px rgba(94,234,212,0); }
+  100%{ box-shadow:0 0 0 0 rgba(94,234,212,0); }
+}
+.road-seg .label{position:absolute; bottom:5px; left:0; right:0; text-align:center; font-family:var(--f-mono); font-size:.6rem; letter-spacing:.12em; color:var(--silver-dim);}
+
+.ev{
+  position:absolute; bottom:74px; left:-70px; width:54px; height:26px; color:var(--white);
+}
+.ev svg{width:100%; height:100%; filter:drop-shadow(0 0 10px rgba(126,200,255,.5));}
+
+.scene.run .ev.drive{ animation:driveAcross var(--drive-dur, 16s) linear forwards; }
+@keyframes driveAcross{
+  0%{ left:-70px; }
+  100%{ left:calc(100% + 20px); }
+}
+
+/* generic node-flow (scene 5) */
+.flowline{
+  display:flex; align-items:center; justify-content:center; gap:0;
+  flex-wrap:wrap; width:100%;
+}
+.fnode{
+  display:flex; flex-direction:column; align-items:center; gap:10px;
+  width:118px;
+}
+.fnode .ring{
+  width:66px; height:66px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  border:1px solid var(--glass-border); background:var(--glass);
+  color:var(--cyan);
+}
+.fnode span{font-family:var(--f-mono); font-size:.66rem; letter-spacing:.06em; color:var(--silver); line-height:1.3;}
+.fconn{
+  width:44px; height:2px; position:relative; background:var(--line-dim); margin:0 -2px;
+  align-self:flex-start; margin-top:33px;
+  overflow:visible;
+}
+.fconn::after{
+  content:""; position:absolute; top:50%; left:0; width:8px; height:8px; margin-top:-4px;
+  border-radius:50%; background:var(--cyan-2); box-shadow:0 0 8px 2px var(--cyan-2);
+  animation:travel 1.6s linear infinite;
+}
+@keyframes travel{ 0%{ left:-4px; opacity:0;} 15%{opacity:1;} 100%{ left:100%; opacity:0;} }
+
+@media (max-width:820px){
+  .fconn{ width:22px; }
+  .fnode{ width:88px; }
+}
+
+/* grid cards */
+.grid-cards{
+  display:grid; gap:16px; width:100%;
+  grid-template-columns:repeat(auto-fit, minmax(190px,1fr));
+}
+.card{
+  padding:22px 18px; text-align:left; display:flex; flex-direction:column; gap:10px;
+}
+.card .icon-badge{
+  width:42px; height:42px; border-radius:12px; display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(145deg, rgba(94,234,212,.12), rgba(61,139,255,.08));
+  border:1px solid var(--glass-border); color:var(--cyan);
+}
+.card h4{font-family:var(--f-display); font-weight:600; font-size:1rem; color:var(--white);}
+.card p{font-size:.82rem; color:var(--silver-dim); line-height:1.5;}
+
+/* blueprint scene */
+.blueprint-wrap{
+  position:relative; width:min(980px,90vw); aspect-ratio:16/8;
+  border:1px solid rgba(94,234,212,.25); border-radius:14px;
+  background:
+    repeating-linear-gradient(0deg, rgba(94,234,212,.06) 0 1px, transparent 1px 26px),
+    repeating-linear-gradient(90deg, rgba(94,234,212,.06) 0 1px, transparent 1px 26px),
+    #050b16;
+  overflow:hidden;
+}
+.blueprint-wrap svg{width:100%; height:100%;}
+.bp-draw{ stroke-dasharray:800; stroke-dashoffset:800; }
+.scene.run .bp-draw{ animation:draw 2.6s var(--ease-soft) forwards; animation-delay:.3s; }
+@keyframes draw{ to{ stroke-dashoffset:0; } }
+.bp-label{ font-family:var(--f-mono); font-size:9px; fill:var(--cyan); letter-spacing:.05em; opacity:0; }
+.scene.run .bp-label{ animation:fadeIn 1s forwards; animation-delay:1.6s; }
+
+/* team */
+.team-list{ display:flex; flex-direction:column; width:min(560px,86vw); }
+.team-row{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 4px; border-bottom:1px solid rgba(255,255,255,.08);
+}
+.team-row:first-child{ border-top:1px solid rgba(255,255,255,.08); }
+.team-row .tag{ font-family:var(--f-mono); font-size:.68rem; color:var(--silver-dim); letter-spacing:.12em; }
+.team-row .name{ font-family:var(--f-display); font-weight:600; font-size:clamp(1.1rem,2.4vw,1.5rem); color:var(--white); }
+
+/* skyline (future vision) */
+.skyline{ position:absolute; bottom:0; left:0; right:0; height:46%; opacity:.55; }
+
+/* responsive base */
+@media (max-width:640px){
+  .scene-inner{ gap:16px; }
+  .chapter{ top:4vh; font-size:.6rem; letter-spacing:.22em; }
+}
+</style>
+<style>
+/* Exhibition cut: compact cinematic sequencing, no slide labels. */
+.chapter{display:none!important}
+.scene{transition:opacity .58s var(--ease),transform .8s var(--ease),filter .58s var(--ease);transform:scale(1.075)}
+.scene.active{transform:scale(1)}
+.scene-inner{width:min(1180px,90vw);gap:clamp(12px,2.4vh,24px)}
+.eyebrow{font-size:clamp(.62rem,.8vw,.75rem);letter-spacing:.46em;color:var(--cyan)}
+.display-xl{font-size:clamp(3.1rem,8vw,8.2rem);letter-spacing:-.055em}.display-lg{font-size:clamp(2.3rem,5.6vw,5.4rem);letter-spacing:-.045em}.display-md{font-size:clamp(1.7rem,3.4vw,3.25rem);letter-spacing:-.035em}.lede{font-size:clamp(.78rem,1.1vw,1rem);max-width:560px}
+.glass{background:linear-gradient(135deg,rgba(126,200,255,.09),rgba(8,13,32,.42));border-color:rgba(152,215,255,.2);box-shadow:inset 0 1px rgba(255,255,255,.09),0 24px 70px -35px #000}
+.rv{transform:translateY(18px)}.scene.run .rv{animation-duration:.62s;animation-delay:calc(var(--i,0) * .095s + .04s)}.scene.run .rv-scale{animation-duration:.56s;animation-delay:calc(var(--i,0) * .075s + .04s)}.scene.run .rv-fade{animation-duration:.65s;animation-delay:calc(var(--i,0) * .08s + .04s)}
+.road-strip{max-width:980px;height:142px}.road-seg{height:78px;border-radius:14px}.road-seg .coil{width:42px;height:42px}.road-seg.hot{box-shadow:0 0 38px -8px var(--cyan-2),inset 0 0 28px rgba(94,234,212,.15)}
+#scene-problem .grid-cards{grid-template-columns:repeat(3,1fr);max-width:760px}#scene-problem .card{min-height:124px;padding:18px}#scene-problem .card p{display:none}#scene-problem .card h4{font-size:1.05rem}
+#scene-solution .lede{display:none}#scene-solution .road-strip{margin-top:0!important}
+#scene-components .grid-cards{display:grid;grid-template-columns:repeat(4,minmax(132px,1fr));gap:14px;max-width:860px;min-height:0}#scene-components .card{position:relative;width:auto;min-height:108px;padding:13px 9px;transform:none;text-align:center;align-items:center;justify-content:center}#scene-components .card:nth-child(odd){transform:translateY(-7px)}#scene-components .card p{display:none}#scene-components .card h4{font-size:.76rem}#scene-components .icon-badge{margin-top:3px}
+#scene-apps .grid-cards{position:relative;display:block;width:460px;height:300px;max-width:84vw}#scene-apps .grid-cards:before{content:"";position:absolute;inset:78px 145px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#c9fbff 0 2%,#5eead4 4%,#1678bc 22%,#07152b 61%,#01030a 70%);box-shadow:0 0 55px 10px rgba(94,234,212,.22),inset -18px -16px 35px rgba(0,0,0,.65);animation:planet 7s linear infinite}#scene-apps .card{position:absolute;width:126px;padding:10px 6px;background:transparent;border:0;backdrop-filter:none;box-shadow:none;align-items:center;text-align:center}#scene-apps .card h4{font-size:.67rem}#scene-apps .card:nth-child(1){top:0;left:8px}#scene-apps .card:nth-child(2){top:14px;right:0}#scene-apps .card:nth-child(3){top:112px;left:-20px}#scene-apps .card:nth-child(4){top:112px;right:-20px}#scene-apps .card:nth-child(5){bottom:0;left:12px}#scene-apps .card:nth-child(6){bottom:0;right:8px}#scene-apps .card:nth-child(7){display:none}@keyframes planet{to{filter:hue-rotate(18deg);transform:rotate(360deg)}}
+#scene-blueprint .eyebrow{display:none}.blueprint-wrap{width:min(920px,86vw);aspect-ratio:2.1;background-color:#030914;box-shadow:0 0 55px -18px rgba(94,234,212,.42)}.scene.run .bp-draw{animation-duration:1.05s}.scene.run .bp-label{animation-delay:.55s;animation-duration:.35s}
+#scene-future .scene-inner{gap:0}#scene-future .display-lg{line-height:1.02}#scene-team .team-list{width:min(620px,82vw);columns:2;column-gap:46px}#scene-team .team-row{break-inside:avoid;padding:9px 3px}#scene-team .team-row .name{font-size:clamp(.92rem,1.55vw,1.25rem)}#scene-team .team-row .tag{display:none}#scene-team .mono-tag{font-size:.55rem}#scene-final .lede{font-size:1rem;color:var(--cyan)}
+@media(max-width:700px){#scene-components .grid-cards{grid-template-columns:repeat(2,minmax(118px,1fr));gap:10px;max-width:360px}#scene-components .card{min-height:96px;padding:10px}#scene-components .card:nth-child(odd){transform:none}#scene-apps .grid-cards{transform:scale(.8)}#scene-team .team-list{columns:1;width:min(380px,82vw)}#scene-problem .grid-cards{gap:8px}#scene-problem .card{padding:10px}#scene-problem .icon-badge{display:none}}
+</style>
+</head>
+<body>
+
+<!-- ================= ICON SPRITE ================= -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="threadGradA" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3d8bff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#5eead4" stop-opacity=".9"/>
+      <stop offset="100%" stop-color="#3d8bff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="threadGradB" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#8b7cff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#7ec8ff" stop-opacity=".8"/>
+      <stop offset="100%" stop-color="#8b7cff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></symbol>
+  <symbol id="i-chip" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="1.5"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3"/></symbol>
+  <symbol id="i-coil" viewBox="0 0 24 24"><ellipse cx="6" cy="12" rx="3" ry="6.5"/><ellipse cx="12" cy="12" rx="3" ry="6.5"/><ellipse cx="18" cy="12" rx="3" ry="6.5"/></symbol>
+  <symbol id="i-relay" viewBox="0 0 24 24"><circle cx="6" cy="18" r="1.4"/><circle cx="18" cy="18" r="1.4"/><path d="M6 18 16 6M2 18h4M18 18h4"/></symbol>
+  <symbol id="i-ir" viewBox="0 0 24 24"><circle cx="12" cy="16" r="1.4"/><path d="M8.3 12.3a5 5 0 0 1 7.4 0"/><path d="M5 9a9.4 9.4 0 0 1 14 0"/></symbol>
+  <symbol id="i-transmit" viewBox="0 0 24 24"><path d="M12 20v-9"/><circle cx="12" cy="8" r="2"/><path d="M8.3 5.3a6 6 0 0 1 7.4 0M5.6 2.8a9.7 9.7 0 0 1 12.8 0"/></symbol>
+  <symbol id="i-receive" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"/><path d="M12 4v4M12 16v4M4 12h4M16 12h4"/></symbol>
+  <symbol id="i-power" viewBox="0 0 24 24"><path d="M9 2v6M15 2v6M6 8h12v4a6 6 0 0 1-12 0V8z"/><path d="M12 18v4"/></symbol>
+  <symbol id="i-led" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3 11c.6.5 1 1.2 1 2h4c0-.8.4-1.5 1-2a6 6 0 0 0-3-11z"/></symbol>
+  <symbol id="i-road" viewBox="0 0 24 24"><path d="M8 21 10 3h4l2 18"/><path d="M12 5v3M12 11v3M12 17v3"/></symbol>
+  <symbol id="i-car" viewBox="0 0 24 24"><path d="M3 16l1.5-5A2 2 0 0 1 6.4 9.5h11.2a2 2 0 0 1 1.9 1.5L21 16"/><path d="M3 16h18v2a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-1H6v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-2z"/><circle cx="7" cy="18.4" r="1"/><circle cx="17" cy="18.4" r="1"/></symbol>
+  <symbol id="i-magnet" viewBox="0 0 24 24"><path d="M6 4v7a6 6 0 0 0 12 0V4"/><path d="M6 4h4M14 4h4M6 8h4M14 8h4"/></symbol>
+  <symbol id="i-battery" viewBox="0 0 24 24"><rect x="3" y="7" width="16" height="10" rx="2"/><path d="M21 10v4"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/></symbol>
+  <symbol id="i-city" viewBox="0 0 24 24"><path d="M3 21V9l5-4 5 4v12M13 21V6l5-2 3 2v15"/><path d="M6 12h1M6 15h1M6 18h1"/></symbol>
+  <symbol id="i-robot" viewBox="0 0 24 24"><rect x="5" y="8" width="14" height="10" rx="2"/><circle cx="9" cy="13" r="1"/><circle cx="15" cy="13" r="1"/><path d="M12 8V5M9 3h6M3 12v2M21 12v2"/></symbol>
+  <symbol id="i-bus" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="10" rx="2"/><path d="M3 12h18"/><circle cx="7" cy="18.4" r="1.1"/><circle cx="17" cy="18.4" r="1.1"/></symbol>
+  <symbol id="i-auto" viewBox="0 0 24 24"><path d="M3 16l1.5-5A2 2 0 0 1 6.4 9.5h11.2a2 2 0 0 1 1.9 1.5L21 16"/><path d="M3 16h18v2a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-1H6v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-2z"/><circle cx="12" cy="5.5" r="1"/><path d="M12 7.5v2"/></symbol>
+  <symbol id="i-factory" viewBox="0 0 24 24"><path d="M3 21V10l5 3v-3l5 3V7l5 3v11z"/><path d="M3 21h18"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 5-3 8-7 9-4-1-7-4-7-9V6l7-3z"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></symbol>
+  <symbol id="i-wireless" viewBox="0 0 24 24"><path d="M5 9a10 10 0 0 1 14 0M8 12.5a6 6 0 0 1 8 0"/><circle cx="12" cy="17" r="1.2"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M5 19c8 0 14-6 14-14-8 0-14 6-14 14z"/><path d="M5 19c3-5 6-8 10-10"/></symbol>
+  <symbol id="i-speaker" viewBox="0 0 24 24"><path d="M4 9v6h4l6 5V4l-6 5H4z"/><path d="M16.5 9a4 4 0 0 1 0 6"/><path d="M19.2 6.5a8 8 0 0 1 0 11" class="hi-only"/></symbol>
+  <symbol id="i-speaker-off" viewBox="0 0 24 24"><path d="M4 9v6h4l6 5V4l-6 5H4z"/><path d="M16 9l5 6M21 9l-5 6"/></symbol>
+</svg>
+
+<!-- persistent background -->
+<canvas id="bg-canvas"></canvas>
+<svg class="energy-threads" viewBox="0 0 1600 900" preserveAspectRatio="none">
+  <path class="thread-a" d="M-100,650 C300,600 500,760 900,700 C1200,650 1400,560 1700,600"/>
+  <path class="thread-b" d="M-100,220 C350,280 600,120 950,190 C1250,250 1400,150 1700,200"/>
+</svg>
+
+<div id="progress-wrap"><div id="progress-bar"></div></div>
+
+<!-- ================= STAGE ================= -->
+<div id="stage">
+
+  <!-- SCENE 1 — BOOT -->
+  <section class="scene" id="scene-boot">
+    <div class="scene-inner">
+      <div class="float" style="width:10px;height:10px;border-radius:50%;background:var(--cyan-2);box-shadow:0 0 30px 8px var(--cyan-2);" data-rv="dot"></div>
+      <div class="rv" style="--i:1" data-boot-line>
+        <p class="mono-tag" style="font-size:.8rem;letter-spacing:.3em;color:var(--silver);">INITIALIZING&nbsp;SYSTEM<span class="pulse-glow" style="color:var(--cyan)">…</span></p>
+      </div>
+      <div class="rv" style="--i:2.4" data-boot-line>
+        <p class="display-md" style="color:var(--white);">Adaptive Wireless Charging Road</p>
+      </div>
+      <div class="rv" style="--i:3.8" data-boot-line>
+        <p class="mono-tag" style="color:var(--cyan);letter-spacing:.35em;">SYSTEM&nbsp;ONLINE</p>
+      </div>
+    </div>
+    <div class="boot-scan"></div>
+  </section>
+
+  <!-- SCENE 2 — HERO -->
+  <section class="scene" id="scene-hero">
+    <div class="chapter"><span class="dash"></span>SCENE 01 · REVEAL<span class="dash r"></span></div>
+    <div class="scene-inner">
+      <p class="eyebrow rv" style="--i:0">Class XII Science Exhibition · 2026</p>
+      <h1 class="display-xl gradient-text rv" style="--i:1">Adaptive Wireless<br>Charging Road</h1>
+      <p class="lede rv" style="--i:2;max-width:520px;letter-spacing:.02em;">Powering the Future Without Wires</p>
+    </div>
+  </section>
+
+  <!-- SCENE 3 — THE PROBLEM -->
+  <section class="scene" id="scene-problem">
+    <div class="chapter"><span class="dash"></span>SCENE 02 · PROBLEM<span class="dash r"></span></div>
+    <div class="scene-inner">
+      <p class="eyebrow rv" style="--i:0">The Challenge</p>
+      <h2 class="display-lg rv" style="--i:1">Electric mobility is<br>held back by <span style="color:var(--cyan)">how we charge</span>.</h2>
+      <div class="grid-cards" style="max-width:900px;margin-top:8px;">
+        <div class="glass card rv-scale" style="--i:2">
+          <div class="icon-badge"><svg class="icon"><use href="#i-car"></use></svg></div>
+          <h4>Forced Stops</h4>
+          <p>Every EV must halt its journey and plug in before it can charge.</p>
+        </div>
+        <div class="glass card rv-scale" style="--i:3">
+          <div class="icon-badge"><svg class="icon"><use href="#i-battery"></use></svg></div>
+          <h4>Slow Turnaround</h4>
+          <p>A full charge can take anywhere from thirty minutes to several hours.</p>
+        </div>
+        <div class="glass card rv-scale" style="--i:4">
+          <div class="icon-badge"><svg class="icon"><use href="#i-globe"></use></svg></div>
+          <h4>Limited Infrastructure</h4>
+          <p>Charging stations remain sparse across highways and growing cities.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCENE 4 — OUR SOLUTION -->
+  <section class="scene" id="scene-solution">
+    <div class="chapter"><span class="dash"></span>SCENE 03 · SOLUTION<span class="dash r"></span></div>
+    <div class="scene-inner">
+      <p class="eyebrow rv" style="--i:0">Our Solution</p>
+      <h2 class="display-lg gradient-text rv" style="--i:1">A road that charges<br>as you drive.</h2>
+      <div class="road-strip" style="margin-top:10px;">
+        <div class="road-seg rv-scale" style="--i:2"><div class="coil"></div><span class="label">SEG&nbsp;01</span></div>
+        <div class="road-seg rv-scale" style="--i:3"><div class="coil"></div><span class="label">SEG&nbsp;02</span></div>
+        <div class="road-seg rv-scale" style="--i:4"><div class="coil"></div><span class="label">SEG&nbsp;03</span></div>
+        <div class="road-seg rv-scale" style="--i:5"><div class="coil"></div><span class="label">SEG&nbsp;04</span></div>
+        <div class="ev drive rv-fade" style="--i:6; --drive-dur:9s;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><use href="#i-car"></use></svg>
+        </div>
+      </div>
+      <p class="lede rv" style="--i:7;font-size:.85rem;">Embedded charging coils energize automatically the moment a vehicle passes overhead.</p>
+    </div>
+  </section>
+
+  <!-- SCENE 5 — HOW IT WORKS -->
+  <section class="scene" id="scene-how">
+    <div class="chapter"><span class="dash"></span>SCENE 04 · PROCESS<span class="dash r"></span></div>
+    <div class="scene-inner">
+      <p class="eyebrow rv" style="--i:0">How It Works</p>
+      <h2 class="display-md rv" style="--i:1">From supply to battery,<br>in one continuous flow.</h2>
+      <div class="flowline" style="margin-top:14px;">
+        <div class="fnode rv-scale" style="--i:2"><div class="ring"><svg class="icon"><use href="#i-power"></use></svg></div><span>12V<br>SUPPLY</span></div>
+        <div class="fconn rv-fade" style="--i:3"></div>
+        <div class="fnode rv-scale" style="--i:3"><div class="ring"><svg class="icon"><use href="#i-transmit"></use></svg></div><span>WIRELESS<br>TRANSMITTER</span></div>
+        <div class="fconn rv-fade" style="--i:4"></div>
+        <div class="fnode rv-scale" style="--i:4"><div class="ring"><svg class="icon"><use href="#i-coil"></use></svg></div><span>CHARGING<br>COIL</span></div>
+        <div class="fconn rv-fade" style="--i:5"></div>
+        <div class="fnode rv-scale" style="--i:5"><div class="ring"><svg class="icon"><use href="#i-magnet"></use></svg></div><span>MAGNETIC<br>FIELD</span></div>
+        <div class="fconn rv-fade" style="--i:6"></div>
+        <div class="fnode rv-scale" style="--i:6"><div class="ring"><svg class="icon"><use href="#i-receive"></use></svg></div><span>RECEIVER<br>COIL</span></div>
+        <div class="fconn rv-fade" style="--i:7"></div>
+        <div class="fnode rv-scale" style="--i:7"><div class="ring"><svg class="icon"><use href="#i-battery"></use></svg></div><span>BATTERY<br>CHARGING</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCENE 6 — SMART DETECTION -->
+  <section class="scene" id="scene-detect">
+    <div class="chapter"><span class="dash"></span>SCENE 05 · DETECTION<span class="dash r"></span></div>
+    <div class="scene-inner">
+      <p class="eyebrow rv" style="--i:0">Smart Detection</p>
+      <h2 class="display-md rv" style="--i:1">Only the coil beneath<br>the vehicle ever activates.</h2>
+      <div style="width:100%;max-width:900px;margin-top:22px;">
+        <div style="display:flex;justify-content:space-around;margin-bottom:10px;">
+          <span class="mono-tag rv" style="--i:2">IR&nbsp;SENSOR&nbsp;01</span>
+          <span class="mono-tag rv" style="--i:3">IR&nbsp;SENSOR&nbsp;02</span>
+          <span class="mono-tag rv" style="--i:4">IR&nbsp;SENSOR&nbsp;03</span>
+          <span class="mono-tag rv" style="--i:5">IR&nbsp;SENSOR&nbsp;04</span>
+        </div>
+        <div class="road-strip rv-fade" style="--i:6" id="detect-strip">
+          <div class="road-seg" data-seg="0"><div class="coil"></div></div>
+          <div class="road-seg" data-seg="1"><div class="coil"></div></div>
+          <div class="road-seg" data-seg="2"><div class="coil"></div></div>
+          <div class="road-seg" data-seg="3"><div class="coil"></div></div>
+          <div class="ev drive" id="detect-car" style="--drive-dur:14s;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><use href="#i-car"></use></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCENE 7 — SCIENTIFIC PRINCIPLE -->
+  <section class="scene" id="scene-science">
+    <div class="chapter"><span class="dash"></span>SCENE 06 · SCIENCE<span class="dash r"></span></div>
+    <div class="scene-inner">
+      <p class="eyebrow rv" style="--i:0">The Scientific Principle</p>
+      <h2 class="display-md rv" style="--i:1">Energy, transferred<br>through empty space.</h2>
+      <div class="grid-cards" style="margin-top:6px;">
+        <div class="glass card rv-scale" style="--i:2"><div class="icon-badge pulse-glow" style="color:var(--cyan)"><svg class="icon"><use href="#i-bolt"></use></svg></div><h4>Faraday's Law</h4><p>A changing magnetic field induces an electromotive force in a nearby coil.</p></div>
+        <div class="glass card rv-scale" style="--i:3"><div class="icon-badge pulse-glow" style="color:var(--cyan)"><svg class="icon"><use href="#i-magnet"></use></svg></div><h4>Electromagnetic Induction</h4><p>Alternating current in the transmitter coil generates a fluctuating field.</p></div>
+        <div class="glass card rv-scale" style="--i:4"><div class="icon-badge pulse-glow" style="color:var(--cyan)"><svg class="icon"><use href="#i-wireless"></use></svg></div><h4>Magnetic Flux</h4><p>Flux linking the receiver coil drives the induced current that charges the battery.</p></div>
+        <div class="glass card rv-scale" style="--i:5"><div class="icon-badge pulse-glow" style="color:var(--cyan)"><svg class="icon"><use href="#i-gear"></use></svg></div><h4>Resonance</h4><p>Matched resonant frequencies between coils maximize transfer efficiency.</p></div>
+        <div class="glass card rv-scale" style="--i:6"><div class="icon-badge pulse-glow" style="color:var(--cyan)"><svg class="icon"><use href="#i-coil"></use></svg></div><h4>Mutual Inductance</h4><p>Coupling between transmitter and receiver coils defines how much power transfers.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCENE 8 — BLUEPRINT -->
+  <section class="scene" id="scene-blueprint">
+    <div class="chapter"><span class="dash"></span>SCENE 07 · BLUEPRINT<span class="dash r"></span></div>
+    <div class="scene-inner">
+      <p class="eyebrow rv" style="--i:0">Engineering Blueprint</p>
+      <div class="blueprint-wrap rv-fade" style="--i:1">
+        <svg viewBox="0 0 980 480">
+          <rect x="60" y="300" width="860" height="60" fill="none" stroke="#5eead4" stroke-width="1.4" class="bp-draw"/>
+          <text x="70" y="292" class="bp-label">ROAD SURFACE — ASPHALT LAYER</text>
+          <rect x="120" y="340" width="90" height="16" fill="none" stroke="#7ec8ff" stroke-width="1.2" class="bp-draw"/>
+          <circle cx="165" cy="380" r="26" fill="none" stroke="#7ec8ff" stroke-width="1.4" class="bp-draw"/>
+          <text x="110" y="425" class="bp-label">CHARGING COIL — Ø130mm</text>
+          <rect x="360" y="340" width="90" height="16" fill="none" stroke="#7ec8ff" stroke-width="1.2" class="bp-draw"/>
+          <circle cx="405" cy="380" r="26" fill="none" stroke="#7ec8ff" stroke-width="1.4" class="bp-draw"/>
+          <text x="350" y="425" class="bp-label">CHARGING COIL — Ø130mm</text>
+          <rect x="600" y="340" width="90" height="16" fill="none" stroke="#7ec8ff" stroke-width="1.2" class="bp-draw"/>
+          <circle cx="645" cy="380" r="26" fill="none" stroke="#7ec8ff" stroke-width="1.4" class="bp-draw"/>
+          <text x="590" y="425" class="bp-label">CHARGING COIL — Ø130mm</text>
+          <path d="M60,300 h860" stroke="#5eead4" stroke-width="1" stroke-dasharray="4 4" opacity=".5"/>
+          <path d="M60,280 v-30 M920,280 v-30 M60,265 h860" stroke="#7ec8ff" stroke-width="1" class="bp-draw"/>
+          <text x="440" y="255" class="bp-label">SPAN — 8.5 m</text>
+          <path d="M40,300 v60 M25,300 h30 M25,360 h30" stroke="#7ec8ff" stroke-width="1" class="bp-draw"/>
+          <text x="0" y="335" class="bp-label" transform="rotate(-90 30 335)">DEPTH 50mm</text>
+          <text x="700" y="120" class="bp-label" font-size="12" fill="#f4f8ff">ROAD CROSS-SECTION — COIL ARRAY</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCENE 9 — COMPONENTS -->
+  <section class="scene" id="scene-components">
+    <div class="chapter"><span class="dash"></span>SCENE 08 · COMPONENTS<span class="dash r"></span></div>
+    <div class="scene-inner">
+      <p class="eyebrow rv" style="--i:0">Core Components</p>
+      <div class="grid-cards" style="grid-template-columns:repeat(4,1fr); max-width:1000px;">
+        <div class="glass card rv-scale" style="--i:1"><div class="icon-badge"><svg class="icon"><use href="#i-chip"></use></svg></div><h4>Arduino</h4><p>Controls sensing logic and coil activation timing.</p></div>
+        <div class="glass card rv-scale" style="--i:2"><div class="icon-badge"><svg class="icon"><use href="#i-coil"></use></svg></div><h4>Copper Coil</h4><p>Generates and receives the electromagnetic field.</p></div>
+        <div class="glass card rv-scale" style="--i:3"><div class="icon-badge"><svg class="icon"><use href="#i-relay"></use></svg></div><h4>Relay</h4><p>Switches coil power on and off on command.</p></div>
+        <div class="glass card rv-scale" style="--i:4"><div class="icon-badge"><svg class="icon"><use href="#i-ir"></use></svg></div><h4>IR Sensors</h4><p>Detect vehicle presence above each road segment.</p></div>
+        <div class="glass card rv-scale" style="--i:5"><div class="icon-badge"><svg class="icon"><use href="#i-transmit"></use></svg></div><h4>Wireless Transmitter</h4><p>Converts supply current into an alternating field.</p></div>
+        <div class="glass card rv-scale" style="--i:6"><div class="icon-badge"><svg class="icon"><use href="#i-receive"></use></svg></div><h4>Wireless Receiver</h4><p>Captures induced current from the road below.</p></div>
+        <div class="glass card rv-scale" style="--i:7"><div class="icon-badge"><svg class="icon"><use href="#i-power"></use></svg></div><h4>Power Supply</h4><p>Delivers regulated 12V to the transmitter circuit.</p></div>
+        <div class="glass card rv-scale" style="--i:8"><div class="icon-badge"><svg class="icon"><use href="#i-led"></use></svg></div><h4>LED Indicator</h4><p>Signals live charging status at a glance.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCENE 10 — WORKING DEMONSTRATION -->
+  <section class="scene" id="scene-demo">
+    <div class="chapter"><span class="dash"></span>SCENE 09 · DEMONSTRATION<span class="dash r"></span></div>
+    <div class="scene-inner">
+      <p class="eyebrow rv" style="--i:0">Working Demonstration</p>
+      <h2 class="display-md rv" style="--i:1">Detect. Activate. Charge.</h2>
+      <div class="road-strip rv-fade" style="--i:2;margin-top:16px;" id="demo-strip">
+        <div class="road-seg" data-seg="0"><div class="coil"></div><span class="label">LED&nbsp;●</span></div>
+        <div class="road-seg" data-seg="1"><div class="coil"></div><span class="label">LED&nbsp;●</span></div>
+        <div class="road-seg" data-seg="2"><div class="coil"></div><span class="label">LED&nbsp;●</span></div>
+        <div class="road-seg" data-seg="3"><div class="coil"></div><span class="label">LED&nbsp;●</span></div>
+        <div class="ev drive" id="demo-car" style="--drive-dur:6s;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><use href="#i-car"></use></svg>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;margin-top:16px;" class="rv-fade" style="--i:3">
+        <svg class="icon" style="width:18px;height:18px;color:var(--cyan)"><use href="#i-battery"></use></svg>
+        <div style="width:200px;height:6px;border-radius:4px;background:rgba(255,255,255,.08);overflow:hidden;">
+          <div id="demo-battery" style="height:100%;width:0%;background:linear-gradient(90deg,var(--blue),var(--cyan));border-radius:4px;"></div>
+        </div>
+        <span class="mono-tag">BATTERY&nbsp;LEVEL</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCENE 11 — APPLICATIONS -->
+  <section class="scene" id="scene-apps">
+    <div class="chapter"><span class="dash"></span>SCENE 10 · APPLICATIONS<span class="dash r"></span></div>
+    <div class="scene-inner">
+      <p class="eyebrow rv" style="--i:0">Where It Belongs</p>
+      <div class="grid-cards" style="grid-template-columns:repeat(4,1fr); max-width:980px;">
+        <div class="glass card rv-scale" style="--i:1;align-items:center;text-align:center;"><div class="icon-badge"><svg class="icon"><use href="#i-road"></use></svg></div><h4>Electric Highways</h4></div>
+        <div class="glass card rv-scale" style="--i:2;align-items:center;text-align:center;"><div class="icon-badge"><svg class="icon"><use href="#i-city"></use></svg></div><h4>Smart Cities</h4></div>
+        <div class="glass card rv-scale" style="--i:3;align-items:center;text-align:center;"><div class="icon-badge"><svg class="icon"><use href="#i-robot"></use></svg></div><h4>Warehouse Robots</h4></div>
+        <div class="glass card rv-scale" style="--i:4;align-items:center;text-align:center;"><div class="icon-badge"><svg class="icon"><use href="#i-bus"></use></svg></div><h4>Public Transport</h4></div>
+        <div class="glass card rv-scale" style="--i:5;align-items:center;text-align:center;"><div class="icon-badge"><svg class="icon"><use href="#i-auto"></use></svg></div><h4>Autonomous Vehicles</h4></div>
+        <div class="glass card rv-scale" style="--i:6;align-items:center;text-align:center;"><div class="icon-badge"><svg class="icon"><use href="#i-factory"></use></svg></div><h4>Industrial Automation</h4></div>
+        <div class="glass card rv-scale" style="--i:7;align-items:center;text-align:center;grid-column:span 2;justify-self:center;width:100%;"><div class="icon-badge"><svg class="icon"><use href="#i-globe"></use></svg></div><h4>Future EV Infrastructure</h4></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCENE 12 — FUTURE VISION -->
+  <section class="scene" id="scene-future">
+    <svg class="skyline" viewBox="0 0 1200 300" preserveAspectRatio="none">
+      <rect x="60" y="140" width="70" height="160" fill="#0c1730" stroke="#3d8bff" stroke-width="1" opacity=".7"/>
+      <rect x="160" y="90" width="55" height="210" fill="#0c1730" stroke="#3d8bff" stroke-width="1" opacity=".7"/>
+      <rect x="250" y="170" width="90" height="130" fill="#0c1730" stroke="#5eead4" stroke-width="1" opacity=".7"/>
+      <rect x="900" y="120" width="60" height="180" fill="#0c1730" stroke="#3d8bff" stroke-width="1" opacity=".7"/>
+      <rect x="990" y="60" width="50" height="240" fill="#0c1730" stroke="#5eead4" stroke-width="1" opacity=".7"/>
+      <rect x="1060" y="160" width="80" height="140" fill="#0c1730" stroke="#3d8bff" stroke-width="1" opacity=".7"/>
+      <line x1="0" y1="300" x2="1200" y2="300" stroke="#5eead4" stroke-width="1.5" opacity=".8"/>
+      <line x1="0" y1="296" x2="1200" y2="296" stroke="#5eead4" stroke-width=".6" opacity=".4"/>
+    </svg>
+    <div class="chapter"><span class="dash"></span>SCENE 11 · VISION<span class="dash r"></span></div>
+    <div class="scene-inner">
+      <p class="eyebrow rv" style="--i:0">Future Vision</p>
+      <h2 class="display-lg rv" style="--i:1">Electric highways.</h2>
+      <h2 class="display-lg rv" style="--i:2;color:var(--blue-bright)">Connected cities.</h2>
+      <h2 class="display-lg rv" style="--i:3;color:var(--cyan)">Smart roads.</h2>
+      <h2 class="display-lg rv" style="--i:4">Clean energy.</h2>
+    </div>
+  </section>
+
+  <!-- SCENE 13 — ENGINEERING EXCELLENCE -->
+  <section class="scene" id="scene-excellence">
+    <div class="chapter"><span class="dash"></span>SCENE 12 · EXCELLENCE<span class="dash r"></span></div>
+    <div class="scene-inner">
+      <p class="eyebrow rv" style="--i:0">Engineering Excellence</p>
+      <div class="grid-cards" style="grid-template-columns:repeat(5,1fr); max-width:1080px;">
+        <div class="glass card rv-scale" style="--i:1;align-items:center;text-align:center;"><div class="icon-badge"><svg class="icon"><use href="#i-shield"></use></svg></div><h4 style="font-size:.88rem">Low Energy Loss</h4></div>
+        <div class="glass card rv-scale" style="--i:2;align-items:center;text-align:center;"><div class="icon-badge"><svg class="icon"><use href="#i-bolt"></use></svg></div><h4 style="font-size:.88rem">Automatic Charging</h4></div>
+        <div class="glass card rv-scale" style="--i:3;align-items:center;text-align:center;"><div class="icon-badge"><svg class="icon"><use href="#i-gear"></use></svg></div><h4 style="font-size:.88rem">Scalable Design</h4></div>
+        <div class="glass card rv-scale" style="--i:4;align-items:center;text-align:center;"><div class="icon-badge"><svg class="icon"><use href="#i-wireless"></use></svg></div><h4 style="font-size:.88rem">Wireless Power Transfer</h4></div>
+        <div class="glass card rv-scale" style="--i:5;align-items:center;text-align:center;"><div class="icon-badge"><svg class="icon"><use href="#i-leaf"></use></svg></div><h4 style="font-size:.88rem">Sustainable Transport</h4></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCENE 14 — TEAM -->
+  <section class="scene" id="scene-team">
+    <div class="chapter"><span class="dash"></span>SCENE 13 · TEAM<span class="dash r"></span></div>
+    <div class="scene-inner">
+      <p class="eyebrow rv" style="--i:0">Designed &amp; Developed By</p>
+      <div class="team-list">
+        <div class="team-row rv" style="--i:1"><span class="name">Naitik Singh</span><span class="tag">T-01</span></div>
+        <div class="team-row rv" style="--i:2"><span class="name">Shreyansh Tiwari</span><span class="tag">T-02</span></div>
+        <div class="team-row rv" style="--i:3"><span class="name">Kushagra Tiwari</span><span class="tag">T-03</span></div>
+        <div class="team-row rv" style="--i:4"><span class="name">Shivam Rai</span><span class="tag">T-04</span></div>
+        <div class="team-row rv" style="--i:5"><span class="name">Ayan Ahmed</span><span class="tag">T-05</span></div>
+        <div class="team-row rv" style="--i:6"><span class="name">Suraj Singh</span><span class="tag">T-06</span></div>
+        <div class="team-row rv" style="--i:7"><span class="name">Aditya Dwivedi</span><span class="tag">T-07</span></div>
+      </div>
+      <p class="mono-tag rv" style="--i:8;margin-top:8px;letter-spacing:.3em;">CLASS XII SCIENCE EXHIBITION · 2026</p>
+    </div>
+  </section>
+
+  <!-- SCENE 15 — FINAL -->
+  <section class="scene" id="scene-final">
+    <div class="scene-inner">
+      <svg width="180" height="2" class="rv-fade" style="--i:0">
+        <line x1="0" y1="1" x2="180" y2="1" stroke="var(--cyan-2)" stroke-width="1.5" style="filter:drop-shadow(0 0 6px var(--cyan-2))"/>
+      </svg>
+      <h2 class="display-xl gradient-text rv" style="--i:1">Thank You</h2>
+      <p class="lede rv" style="--i:2;letter-spacing:.1em;">Powering Tomorrow.</p>
+    </div>
+  </section>
+
+</div><!-- /stage -->
+
+<script>
+(function(){
+"use strict";
+
+/* ============================ SCENE TIMELINE ============================ */
+var scenes = [
+  {id:'scene-boot', duration:1600}, {id:'scene-hero', duration:4000},
+  {id:'scene-problem', duration:3200}, {id:'scene-solution', duration:3600},
+  {id:'scene-demo', duration:7000}, {id:'scene-blueprint', duration:2500},
+  {id:'scene-components', duration:3200}, {id:'scene-apps', duration:3200},
+  {id:'scene-future', duration:2600}, {id:'scene-team', duration:3500},
+  {id:'scene-final', duration:2500}
+];
+var TOTAL = scenes.reduce(function(a,s){return a+s.duration;},0);
+
+var sceneEls = scenes.map(function(s){ return document.getElementById(s.id); });
+var current = -1;
+var sceneTimer = null;
+var cycleStart = performance.now();
+
+function activate(i){
+  current = i;
+  for (var j=0;j<sceneEls.length;j++){
+    sceneEls[j].classList.toggle('active', j===i);
+  }
+  var el = sceneEls[i];
+  // restart entrance animations every loop
+  el.classList.remove('run');
+  void el.offsetWidth;
+  el.classList.add('run');
+
+  // per-scene special resets
+  if (scenes[i].id === 'scene-detect') runDetectSequence(el);
+  if (scenes[i].id === 'scene-demo') runDemoSequence(el);
+
+  clearTimeout(sceneTimer);
+  sceneTimer = setTimeout(function(){
+    var next = (i+1) % scenes.length;
+    if (next === 0){ cycleStart = performance.now(); }
+    activate(next);
+  }, scenes[i].duration);
+}
+
+/* Scene 6 — sync coil pulses with the moving car across 4 segments */
+function runDetectSequence(el){
+  var segs = el.querySelectorAll('.road-seg');
+  var car = el.querySelector('#detect-car');
+  car.classList.remove('drive'); void car.offsetWidth; car.classList.add('drive');
+  segs.forEach(function(s){ s.classList.remove('hot'); });
+  var totalMs = 14000, per = totalMs/4;
+  segs.forEach(function(s, idx){
+    setTimeout(function(){
+      segs.forEach(function(x){x.classList.remove('hot');});
+      s.classList.add('hot');
+    }, idx*per + per*0.15);
+  });
+  setTimeout(function(){ segs.forEach(function(x){x.classList.remove('hot');}); }, totalMs);
+}
+
+/* Scene 10 — full demo: coil activation + LED + battery fill across 4 segments */
+function runDemoSequence(el){
+  var segs = el.querySelectorAll('.road-seg');
+  var car = el.querySelector('#demo-car');
+  var batt = el.querySelector('#demo-battery');
+  car.classList.remove('drive'); void car.offsetWidth; car.classList.add('drive');
+  segs.forEach(function(s){ s.classList.remove('hot'); });
+  batt.style.transition = 'none';
+  batt.style.width = '0%';
+  void batt.offsetWidth;
+  batt.style.transition = 'width 5.8s linear';
+  requestAnimationFrame(function(){ batt.style.width = '100%'; });
+
+  var totalMs = 6000, per = totalMs/4;
+  segs.forEach(function(s, idx){
+    setTimeout(function(){
+      segs.forEach(function(x){x.classList.remove('hot');});
+      s.classList.add('hot');
+    }, idx*per + per*0.15);
+  });
+  setTimeout(function(){ segs.forEach(function(x){x.classList.remove('hot');}); }, totalMs);
+}
+
+/* progress bar */
+var progressBar = document.getElementById('progress-bar');
+function tickProgress(){
+  var elapsed = (performance.now() - cycleStart) % TOTAL;
+  var pct = (elapsed / TOTAL) * 100;
+  progressBar.style.width = pct + '%';
+  requestAnimationFrame(tickProgress);
+}
+requestAnimationFrame(tickProgress);
+
+/* boot sequence scanning bar (visual only, css-independent for safety) */
+(function bootScan(){
+  var boot = document.getElementById('scene-boot');
+  var scan = document.createElement('div');
+  scan.style.cssText = 'position:absolute;left:0;right:0;height:1px;top:0;background:linear-gradient(90deg,transparent,rgba(94,234,212,.9),transparent);box-shadow:0 0 12px 2px rgba(94,234,212,.6);opacity:.7;';
+  boot.appendChild(scan);
+  var t0 = null;
+  function loopScan(ts){
+    if(!t0) t0 = ts;
+    var p = ((ts - t0) % 4000) / 4000;
+    scan.style.top = (p*100) + '%';
+    requestAnimationFrame(loopScan);
+  }
+  requestAnimationFrame(loopScan);
+})();
+
+/* ============================ PARTICLE FIELD ============================ */
+var canvas = document.getElementById('bg-canvas');
+var ctx = canvas.getContext('2d');
+var W, H, DPR;
+function resize(){
+  DPR = Math.min(window.devicePixelRatio||1, 2);
+  W = window.innerWidth; H = window.innerHeight;
+  canvas.width = W*DPR; canvas.height = H*DPR;
+  canvas.style.width = W+'px'; canvas.style.height = H+'px';
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+}
+window.addEventListener('resize', resize);
+resize();
+
+var particles = [];
+var PCOUNT = Math.min(70, Math.floor((window.innerWidth*window.innerHeight)/18000));
+for (var p=0;p<PCOUNT;p++){
+  particles.push({
+    x: Math.random()*W,
+    y: Math.random()*H,
+    r: Math.random()*1.6+0.4,
+    vy: -(Math.random()*0.18+0.04),
+    vx: (Math.random()-0.5)*0.06,
+    a: Math.random()*0.5+0.15,
+    tw: Math.random()*Math.PI*2,
+    hue: Math.random() > 0.5 ? '126,200,255' : '94,234,212'
+  });
+}
+var streaks = [];
+for (var s=0;s<6;s++){
+  streaks.push({
+    x: -100 - Math.random()*400,
+    y: Math.random()*H,
+    len: 60+Math.random()*80,
+    speed: 1.2+Math.random()*1.6,
+    a: 0.12+Math.random()*0.16
+  });
+}
+
+function drawFrame(){
+  ctx.clearRect(0,0,W,H);
+  for (var i=0;i<particles.length;i++){
+    var pt = particles[i];
+    pt.y += pt.vy; pt.x += pt.vx; pt.tw += 0.02;
+    if (pt.y < -10) { pt.y = H+10; pt.x = Math.random()*W; }
+    if (pt.x < -10) pt.x = W+10;
+    if (pt.x > W+10) pt.x = -10;
+    var flicker = (Math.sin(pt.tw)+1)/2;
+    ctx.beginPath();
+    ctx.fillStyle = 'rgba('+pt.hue+','+(pt.a*(0.4+flicker*0.6))+')';
+    ctx.arc(pt.x, pt.y, pt.r, 0, Math.PI*2);
+    ctx.fill();
+  }
+  for (var j=0;j<streaks.length;j++){
+    var st = streaks[j];
+    st.x += st.speed;
+    if (st.x - st.len > W+50){ st.x = -100 - Math.random()*300; st.y = Math.random()*H; }
+    var grad = ctx.createLinearGradient(st.x-st.len, st.y, st.x, st.y);
+    grad.addColorStop(0, 'rgba(94,234,212,0)');
+    grad.addColorStop(1, 'rgba(126,200,255,'+st.a+')');
+    ctx.strokeStyle = grad;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(st.x-st.len, st.y);
+    ctx.lineTo(st.x, st.y);
+    ctx.stroke();
+  }
+  requestAnimationFrame(drawFrame);
+}
+requestAnimationFrame(drawFrame);
+
+/* ============================ AMBIENT AUDIO (optional) ============================ */
+var audioCtx = null, master = null, droneNodes = [], audioOn = false;
+var toggleBtn = document.getElementById('audio-toggle');
+
+function initAudio(){
+  if (audioCtx) return;
+  try{
+    var AC = window.AudioContext || window.webkitAudioContext;
+    audioCtx = new AC();
+    master = audioCtx.createGain();
+    master.gain.value = 0.0;
+    master.connect(audioCtx.destination);
+
+    var filter = audioCtx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.value = 900;
+    filter.connect(master);
+
+    [55, 82.5, 110].forEach(function(freq, idx){
+      var osc = audioCtx.createOscillator();
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      var g = audioCtx.createGain();
+      g.gain.value = 0.05 - idx*0.012;
+      osc.connect(g); g.connect(filter);
+      osc.start();
+      droneNodes.push(osc);
+    });
+
+    var lfo = audioCtx.createOscillator();
+    lfo.frequency.value = 0.06;
+    var lfoGain = audioCtx.createGain();
+    lfoGain.gain.value = 250;
+    lfo.connect(lfoGain);
+    lfoGain.connect(filter.frequency);
+    lfo.start();
+    droneNodes.push(lfo);
+  } catch(e){ /* audio unsupported — presentation still works fully without it */ }
+}
+
+function playChime(){
+  if (!audioOn || !audioCtx) return;
+  try{
+    var t = audioCtx.currentTime;
+    var osc = audioCtx.createOscillator();
+    var g = audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(660, t);
+    osc.frequency.exponentialRampToValueAtTime(880, t+0.4);
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(0.045, t+0.06);
+    g.gain.exponentialRampToValueAtTime(0.0001, t+0.9);
+    osc.connect(g); g.connect(master);
+    osc.start(t); osc.stop(t+1);
+  } catch(e){}
+}
+
+if (toggleBtn) toggleBtn.addEventListener('click', function(){
+  initAudio();
+  if (!audioCtx) return;
+  audioOn = !audioOn;
+  toggleBtn.classList.toggle('muted', !audioOn);
+  var target = audioOn ? 0.22 : 0.0;
+  var now = audioCtx.currentTime;
+  master.gain.cancelScheduledValues(now);
+  master.gain.linearRampToValueAtTime(target, now + 0.8);
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+});
+
+document.addEventListener('visibilitychange', function(){
+  if (!audioCtx) return;
+  if (document.hidden && audioCtx.state === 'running') audioCtx.suspend();
+  else if (!document.hidden && audioOn && audioCtx.state === 'suspended') audioCtx.resume();
+});
+
+/* ============================ START ============================ */
+activate(0);
+
+})();
+</script>
+</body>
+</html>
